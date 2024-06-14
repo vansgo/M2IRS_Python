@@ -1,26 +1,33 @@
-
-import os
+from donnees import Pays
+from carte import Carte
+from carte import MainWindow
 import sys
-
+import os
+from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout
 from terminal import Terminal 
-from panda3D import Panda3DApplication
-from app_tkinter import GUIApplication
 
 def main(application_mode: str ="Terminal"):
-
+    
     match application_mode:
         case "Terminal":
-            print("c'est rentré dans terminal")
             terminal_instance = Terminal()
             terminal_instance.init()
-        case "Panda 3D":
-            panda3d_instance = Panda3DApplication()
-            panda3d_instance.run()
-        case "Custom Tkinter":
-            tkinter_instance = GUIApplication()
-            tkinter_instance.mainloop()
+        case "Interface graphique PyQt":
+
+            pays_instance = Pays()
+            list_dict = pays_instance.recup()
+
+            carte_instance = Carte()
+            carte_instance = carte_instance.carte_init(list_dict)
+
+            app = QApplication(sys.argv)
+            window = MainWindow()
+            window.show()
+            sys.exit(app.exec_())
         case _:
             "This command is unavailable"
+    
 
-if __name__=="__main__":
-    main("Custom Tkinter")
+#Main guard
+if __name__== "__main__" :
+    main("Interface graphique PyQt")
